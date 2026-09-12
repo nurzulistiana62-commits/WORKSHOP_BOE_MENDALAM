@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarik Tambang DKV — Game Edukasi SMK Kelas X</title>
+<meta name="description" content="Game edukasi tarik tambang untuk pengenalan dasar Desain Komunikasi Visual (DKV) SMK Kelas X.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1d29; --paper:#fffdf8;
+  --cyan:#00b7eb; --magenta:#e6007e; --yellow:#ffd400; --key:#1a1a1a;
+  --green:#2ea44f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;color:var(--ink);
+  background:#eef2f6;min-height:100vh;overflow-x:hidden;
+}
+
+/* ===== LATAR: studio desain (blob CMYK, bentuk geometris, kartu warna) ===== */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:
+   radial-gradient(circle at 12% 18%, rgba(0,183,235,.20), transparent 42%),
+   radial-gradient(circle at 88% 14%, rgba(230,0,126,.16), transparent 40%),
+   radial-gradient(circle at 78% 88%, rgba(255,212,0,.25), transparent 45%),
+   radial-gradient(rgba(26,29,41,.07) 1.2px, transparent 1.3px) 0 0/24px 24px,
+   #f0f3f7;}
+.fshape{position:absolute;bottom:-8vh;animation:floatUp linear infinite;opacity:.28}
+@keyframes floatUp{from{transform:translateY(0) rotate(0)}to{transform:translateY(-115vh) rotate(340deg)}}
+.swatches{position:absolute;top:0;left:0;right:0;height:86px;display:flex;justify-content:space-around;align-items:flex-start}
+.swatches::before{content:"";position:absolute;top:7px;left:0;right:0;height:4px;background:var(--ink);border-radius:4px;opacity:.85}
+.sw{width:34px;height:48px;background:#fff;border:2.5px solid var(--ink);border-radius:5px;
+  transform-origin:top center;animation:sway 3s ease-in-out infinite alternate;
+  display:flex;flex-direction:column;overflow:hidden;box-shadow:0 4px 0 rgba(26,29,41,.18)}
+.sw i{flex:1;display:block}
+.sw b{font-size:9px;text-align:center;padding:2px 0;letter-spacing:1px}
+@keyframes sway{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+
+/* ===== WRAPPER ===== */
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:104px 18px 40px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.brand{background:var(--paper);border:3px solid var(--ink);border-radius:99px;padding:8px 16px;
+  box-shadow:0 5px 0 rgba(26,29,41,.25);font-weight:800;font-size:14px;display:flex;gap:8px;align-items:center}
+.brand span{font-weight:600;color:#5b6478;font-size:12px}
+.icon-btn{background:var(--paper);border:3px solid var(--ink);border-radius:12px;width:44px;height:44px;
+  font-size:20px;cursor:pointer;box-shadow:0 4px 0 var(--ink);transition:transform .12s}
+.icon-btn:hover{transform:translateY(-2px) rotate(-3deg)}
+.icon-btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+
+/* ===== ARENA STUDIO ===== */
+.field{position:relative;height:340px;border:4px solid var(--ink);border-radius:20px;overflow:hidden;
+  box-shadow:0 12px 0 rgba(26,29,41,.22);background:linear-gradient(180deg,#f2f5f9 0 36%,#d8dce5 36%)}
+.wall{position:absolute;top:0;left:0;right:0;height:36%;
+  background:radial-gradient(rgba(26,29,41,.09) 1.2px, transparent 1.3px) 0 0/20px 20px}
+.watermark{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-6deg);
+  font-family:'Bungee';font-size:74px;letter-spacing:6px;color:rgba(26,29,41,.07);white-space:nowrap}
+.wcard{position:absolute;top:8%;width:42px;height:56px;background:#fff;border:2.5px solid var(--ink);
+  border-radius:5px;box-shadow:0 4px 0 rgba(26,29,41,.2);overflow:hidden}
+.wcard::before{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%) rotate(-3deg);
+  width:26px;height:12px;background:rgba(255,255,255,.75);border:1px solid rgba(26,29,41,.25)}
+.wcard i{display:block;height:33.4%}
+.wcard.a{left:11%;transform:rotate(-5deg)}
+.wcard.b{right:13%;transform:rotate(4deg)}
+.cutline{position:absolute;top:36%;left:0;right:0;border-top:3px dashed #98a1b3}
+.cutline::before{content:"✂️";position:absolute;left:7%;top:-15px;font-size:19px}
+.floor{position:absolute;left:0;right:0;bottom:0;height:64%;
+  background:radial-gradient(rgba(26,29,41,.08) 1.2px, transparent 1.3px) 0 0/26px 26px,
+  linear-gradient(#e2e6ed,#ccd1db)}
+.zone{position:absolute;bottom:0;height:64%;width:23%;opacity:.9}
+.zl{left:0;background:repeating-linear-gradient(-45deg,var(--cyan) 0 14px,var(--magenta) 14px 28px,var(--yellow) 28px 42px);
+  border-right:4px dashed #fff}
+.zr{right:0;background:repeating-conic-gradient(#2b3446 0 25%,#e8ecf4 0 50%) 0 0/26px 26px;border-left:4px dashed #fff}
+.zonetag{position:absolute;bottom:8px;left:50%;transform:translateX(-50%) rotate(-3deg);
+  font-family:'Bungee';font-size:10px;letter-spacing:1px;padding:4px 10px;border-radius:8px;
+  border:2px solid var(--ink);white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.zl .zonetag{background:var(--magenta);color:#fff}
+.zr .zonetag{background:var(--key);color:#7de3ff}
+.midline{position:absolute;left:50%;bottom:0;height:64%;border-left:4px dashed rgba(255,255,255,.95)}
+
+/* tali + tim */
+.rig{position:absolute;bottom:22px;left:50%;width:84%;transform:translateX(-50%);
+  transition:transform .95s cubic-bezier(.2,1.35,.4,1);will-change:transform}
+.rig.snap{transition:none}
+.rope{position:absolute;left:10%;right:10%;bottom:58px;height:15px;border-radius:99px;
+  background:repeating-linear-gradient(115deg,#d8a35d 0 7px,#a9763a 7px 14px);
+  box-shadow:0 4px 0 rgba(0,0,0,.28),inset 0 3px 0 rgba(255,255,255,.3)}
+.flag{position:absolute;left:50%;bottom:60px;transform:translateX(-50%)}
+.flag .pole{display:block;width:5px;height:60px;background:#4a4f63;border-radius:3px}
+.flag .cloth{position:absolute;top:2px;left:4px;width:34px;height:22px;border:2px solid var(--ink);border-radius:3px;
+  background:conic-gradient(var(--cyan) 0 25%,var(--magenta) 0 50%,var(--yellow) 0 75%,var(--key) 0);
+  transform-origin:left center;animation:flagwave 1.1s ease-in-out infinite}
+@keyframes flagwave{50%{transform:skewY(9deg) scaleX(.93)}}
+.team{position:absolute;bottom:0;display:flex;flex-direction:column;align-items:center;gap:5px}
+.team-l{left:-4px}.team-r{right:-4px}
+.tag{font-family:'Bungee';font-size:10px;letter-spacing:1px;padding:4px 10px;border-radius:8px;
+  border:2px solid var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.22);transform:rotate(-2deg)}
+.tag.m{background:var(--magenta);color:#fff}
+.tag.c{background:var(--cyan);color:#003b4d;transform:rotate(2deg)}
+.members{display:flex;align-items:flex-end;gap:2px}
+.member{font-size:46px;line-height:1;filter:drop-shadow(0 5px 3px rgba(0,0,0,.28));animation:bob 2.6s ease-in-out infinite}
+.member.big{font-size:52px}
+.members .member:nth-child(2){animation-delay:.35s}
+.members .member:nth-child(3){animation-delay:.7s}
+@keyframes bob{50%{transform:translateY(-3px) rotate(2deg)}}
+.rig.heave-l .team-l .member{animation:heaveL .9s cubic-bezier(.3,1.5,.4,1) both}
+.rig.heave-r .team-r .member{animation:heaveR .9s cubic-bezier(.3,1.5,.4,1) both}
+@keyframes heaveL{25%{transform:translateX(-13px) rotate(-14deg)}60%{transform:translateX(-5px) rotate(-5deg)}}
+@keyframes heaveR{25%{transform:translateX(13px) rotate(14deg)}60%{transform:translateX(5px) rotate(5deg)}}
+.puff{position:absolute;bottom:16px;font-size:26px;animation:puff .8s ease-out forwards;pointer-events:none}
+@keyframes puff{from{opacity:.9;transform:translateY(0) scale(.6)}to{opacity:0;transform:translateY(-26px) scale(1.4)}}
+
+.comm{position:absolute;top:12px;left:12px;max-width:62%;background:#fff;border:3px solid var(--ink);
+  border-radius:14px;padding:8px 14px;font-weight:800;font-size:13.5px;box-shadow:0 4px 0 rgba(26,29,41,.2)}
+.comm::after{content:"";position:absolute;bottom:-12px;left:26px;border:8px solid transparent;border-top-color:var(--ink)}
+.comm.pop{animation:bump .35s cubic-bezier(.3,1.6,.4,1)}
+@keyframes bump{0%{transform:scale(.85)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.burst{position:absolute;left:50%;top:13%;transform:translateX(-50%);font-family:'Bungee';
+  font-size:clamp(28px,5.5vw,54px);pointer-events:none;white-space:nowrap;
+  text-shadow:3px 3px 0 var(--ink),-2px 2px 0 var(--ink),2px -2px 0 var(--ink),-2px -2px 0 var(--ink);
+  animation:popburst 1s cubic-bezier(.2,1.4,.4,1) forwards}
+.burst.good{color:var(--yellow)}.burst.bad{color:#ff8fb8}
+@keyframes popburst{0%{opacity:0;transform:translateX(-50%) scale(.3) rotate(-8deg)}
+  25%{opacity:1;transform:translateX(-50%) scale(1.15) rotate(2deg)}
+  55%{transform:translateX(-50%) scale(1)}
+  100%{opacity:0;transform:translateX(-50%) translateY(-34px) scale(1)}}
+.field.shake{animation:shakeF .5s}
+@keyframes shakeF{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+
+/* ===== PANEL ===== */
+.panel{position:relative;background:var(--paper);border:4px solid var(--ink);border-radius:22px;
+  box-shadow:0 12px 0 rgba(26,29,41,.22);padding:26px 28px;margin-top:20px}
+.panel::before,.panel::after{content:"⌖";position:absolute;font-size:18px;color:#a9b2c4}
+.panel::before{top:8px;left:12px}.panel::after{bottom:6px;right:12px}
+.hide{display:none!important}
+
+/* --- layar awal --- */
+.sticker{display:inline-block;background:var(--yellow);border:3px solid var(--ink);border-radius:10px;
+  font-family:'Bungee';font-size:11px;letter-spacing:2px;padding:7px 14px;transform:rotate(-2.5deg);
+  box-shadow:0 4px 0 var(--ink);margin-bottom:16px}
+.title{font-family:'Bungee';font-size:clamp(1.9rem,5.6vw,3.4rem);line-height:1.05;color:var(--ink);
+  text-shadow:-4px -4px 0 rgba(0,183,235,.75),4px 4px 0 rgba(230,0,126,.75)}
+.title .cm{display:inline-block;font-size:clamp(2.4rem,7vw,4.3rem);letter-spacing:4px;margin-top:6px}
+.title .cm span{display:inline-block;text-shadow:3px 3px 0 var(--ink)}
+.title .cm .c1{color:var(--cyan)}.title .cm .c2{color:var(--magenta)}.title .cm .c3{color:var(--yellow)}
+.lead{margin:14px 0 18px;font-size:16px;font-weight:600;max-width:62ch;line-height:1.6}
+.vs-row{display:flex;align-items:stretch;gap:14px;margin-bottom:18px}
+.vs-card{flex:1;border:3px solid var(--ink);border-radius:16px;padding:14px;text-align:center;
+  box-shadow:0 6px 0 rgba(26,29,41,.25)}
+.vs-card.left{background:#ffe9f4;transform:rotate(-1.2deg)}
+.vs-card.right{background:#e3f6fd;transform:rotate(1.2deg)}
+.vs-emoji{font-size:44px;line-height:1;margin-bottom:6px;animation:bob 2.6s ease-in-out infinite}
+.vs-card b{font-family:'Bungee';letter-spacing:1px;display:block;font-size:14px}
+.vs-card small{font-weight:700;color:#5b6478;font-size:12.5px;display:block;margin-top:5px}
+.vs-badge{align-self:center;font-family:'Bungee';font-size:21px;background:var(--yellow);
+  border:3px solid var(--ink);width:62px;height:62px;border-radius:50%;display:grid;place-items:center;
+  transform:rotate(8deg);box-shadow:0 5px 0 var(--ink);flex:none}
+.rules{list-style:none;margin-bottom:20px;display:grid;gap:8px}
+.rules li{background:#fff;border:2px dashed #c4cbdb;border-radius:12px;padding:10px 14px;font-weight:700;font-size:14.5px}
+.btn{font-family:'Bungee';letter-spacing:.6px;background:var(--magenta);color:#fff;border:3px solid var(--ink);
+  border-radius:16px;padding:13px 26px;font-size:17px;cursor:pointer;box-shadow:0 6px 0 var(--ink);
+  transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 9px 0 var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.btn-big{background:var(--yellow);color:var(--ink);font-size:clamp(17px,2.8vw,21px);padding:16px 32px}
+
+/* --- layar kuis --- */
+.hud{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.qcount{font-family:'Bungee';background:var(--magenta);color:#fff;border:3px solid var(--ink);border-radius:10px;
+  padding:6px 14px;font-size:13px;box-shadow:0 4px 0 var(--ink);transform:rotate(-1.5deg)}
+.pips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.pip{width:27px;height:27px;border:2.5px solid var(--ink);border-radius:8px;background:#fff;
+  display:grid;place-items:center;font-weight:800;font-size:12px;transition:transform .2s}
+.pip.now{background:#fff3c4;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.15)}}
+.pip.ok{background:#8fe3a4}.pip.no{background:#ffb0b0}
+.timer{display:flex;align-items:center;gap:8px}
+.timer b{font-family:'Bungee';min-width:28px;text-align:center;font-size:16px}
+.tbar{width:140px;height:14px;border:2.5px solid var(--ink);border-radius:99px;overflow:hidden;background:#fff}
+.tbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#2ea44f,#8bd450);transition:width 1s linear}
+.tbar.warn i{background:linear-gradient(90deg,#e8a800,var(--yellow))}
+.tbar.danger i{background:linear-gradient(90deg,#b81f2d,#e63946)}
+.qtext{font-size:clamp(1.05rem,2.4vw,1.4rem);font-weight:800;margin-bottom:16px;line-height:1.5}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{display:flex;align-items:center;gap:12px;padding:13px 15px;background:#fff;border:3px solid var(--ink);
+  border-radius:14px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:15px;text-align:left;cursor:pointer;
+  box-shadow:0 5px 0 var(--ink);transition:transform .12s,box-shadow .12s,background .2s}
+.opt:hover:not(:disabled){transform:translateY(-3px) rotate(-.6deg);background:#f4fbff;box-shadow:0 8px 0 var(--ink)}
+.opt:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 var(--ink)}
+.opt:disabled{cursor:default}
+.opt .key{flex:none;width:34px;height:34px;border-radius:10px;border:2.5px solid var(--ink);
+  display:grid;place-items:center;font-family:'Bungee';font-size:14px}
+.opt:nth-child(1) .key{background:var(--cyan)}
+.opt:nth-child(2) .key{background:var(--magenta);color:#fff}
+.opt:nth-child(3) .key{background:var(--yellow)}
+.opt:nth-child(4) .key{background:var(--key);color:#fff}
+.opt.correct{background:#d9f4dd;border-color:#1f8a3b;box-shadow:0 5px 0 #1f8a3b}
+.opt.correct .key{background:#8fe3a4;color:var(--ink)}
+.opt.wrong{background:#ffdcdc;border-color:#b81f2d;box-shadow:0 5px 0 #b81f2d;animation:shakeOpt .45s}
+.opt.dim{opacity:.45}
+@keyframes shakeOpt{20%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}}
+.kbd-hint{margin-top:12px;font-size:12px;font-weight:700;color:#7a86a0}
+.feedback{margin-top:16px;border-top:3px dashed #d5dcec;padding-top:14px}
+.fb-line{font-family:'Bungee';font-size:clamp(15px,2.4vw,20px);margin-bottom:10px}
+.fb-line.good{color:var(--green)}.fb-line.bad{color:var(--magenta)}
+.fb-ex{background:#fffbe0;border:2px dashed #d8b400;border-radius:12px;padding:12px 14px;
+  font-weight:600;font-size:14px;line-height:1.6;margin-bottom:14px}
+
+/* --- layar akhir --- */
+.end{text-align:center;padding:8px 0}
+.end-emoji{font-size:64px;animation:bob 2s ease-in-out infinite}
+.end h2{font-family:'Bungee';font-size:clamp(1.5rem,4.2vw,2.4rem);margin:10px 0 8px}
+.end h2.win{color:var(--green);text-shadow:3px 3px 0 rgba(255,212,0,.9)}
+.end h2.lose{color:var(--magenta);text-shadow:3px 3px 0 rgba(0,183,235,.55)}
+.end p{font-weight:700;max-width:54ch;margin:0 auto 16px;line-height:1.6}
+.score-line{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:22px}
+.chip{width:34px;height:34px;border:2.5px solid var(--ink);border-radius:9px;display:grid;place-items:center;
+  font-weight:800;font-size:16px;background:#fff}
+.chip.ok{background:#8fe3a4}.chip.no{background:#ffb0b0}
+
+footer{margin-top:22px;text-align:center;font-size:13px;font-weight:700;color:#3d4661}
+footer b{color:var(--magenta)}
+
+.confetti{position:fixed;top:-6vh;z-index:9;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(720deg)}}
+
+@media (max-width:640px){
+  .field{height:274px}
+  .member{font-size:36px}.member.big{font-size:42px}
+  .watermark{font-size:46px}
+  .opts{grid-template-columns:1fr}
+  .vs-row{flex-direction:column}
+  .vs-badge{margin:0 auto}
+  .tbar{width:104px}
+  .wrap{padding-top:96px}
+  .panel{padding:20px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true" id="bg">
+  <div class="swatches" id="swatches"></div>
+</div>
+
+<main class="wrap">
+  <header class="topbar">
+    <div class="brand">🎨 <b>TarikTambang DKV</b> <span>Dasar-Dasar DKV • SMK Kelas X</span></div>
+    <button class="icon-btn" id="sndBtn" title="Nyalakan/matikan suara">🔊</button>
+  </header>
+
+  <!-- ARENA -->
+  <section class="field" id="field">
+    <div class="wall"><div class="watermark">DKV ✦ DKV</div>
+      <div class="wcard a"><i style="background:var(--cyan)"></i><i style="background:var(--magenta)"></i><i style="background:var(--yellow)"></i></div>
+      <div class="wcard b"><i style="background:var(--yellow)"></i><i style="background:var(--key)"></i><i style="background:var(--cyan)"></i></div>
+    </div>
+    <div class="cutline"></div>
+    <div class="floor"></div>
+    <span style="position:absolute;left:29%;bottom:6px;font-size:18px">🖍️</span>
+    <span style="position:absolute;left:66%;bottom:12px;font-size:18px">📐</span>
+    <div class="zone zl"><span class="zonetag">ZONA SISWA</span></div>
+    <div class="zone zr"><span class="zonetag">ZONA KOMPUTER</span></div>
+    <div class="midline"></div>
+
+    <div class="rig" id="rig">
+      <div class="team team-l">
+        <span class="tag m">TIM SISWA</span>
+        <div class="members">
+          <span class="member">🧑‍🎨</span><span class="member">👩‍🎨</span><span class="member">🧑‍🎨</span>
+        </div>
+      </div>
+      <div class="rope"></div>
+      <div class="flag"><i class="pole"></i><i class="cloth"></i></div>
+      <div class="team team-r">
+        <span class="tag c">TIM KOMPUTER</span>
+        <div class="members">
+          <span class="member">🤖</span><span class="member big">🖥️</span><span class="member">🤖</span>
+        </div>
+      </div>
+    </div>
+    <div class="comm" id="comm">📣 Wasit: "Bersiap! Jawab 10 soal dan tarik talinya!"</div>
+  </section>
+
+  <!-- PANEL -->
+  <section class="panel">
+
+    <!-- LAYAR AWAL -->
+    <div id="scrStart">
+      <span class="sticker">GAME EDUKASI • DASAR-DASAR DKV</span>
+      <h1 class="title">TARIK TAMBANG<br>
+        <span class="cm"><span class="c1">D</span><span class="c2">K</span><span class="c3">V</span></span>
+      </h1>
+      <p class="lead">Uji pemahamanmu tentang <b>dasar Desain Komunikasi Visual</b> — unsur desain, prinsip desain, teori warna, tipografi, hingga software — dalam lomba tarik tambang melawan sang komputer!</p>
+      <div class="vs-row">
+        <div class="vs-card left">
+          <div class="vs-emoji">🧑‍🎨</div>
+          <b>TIM SISWA</b>
+          <small>Jawaban BENAR menarik tali ke kiri ⬅️</small>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="vs-card right">
+          <div class="vs-emoji">🤖</div>
+          <b>TIM KOMPUTER</b>
+          <small>Jawaban SALAH membuat komputer menarik ke kanan ➡️</small>
+        </div>
+      </div>
+      <ul class="rules">
+        <li>✅ Setiap jawaban <b>BENAR</b> → tali tertarik ke arahmu (kiri).</li>
+        <li>❌ Jawaban salah atau waktu habis → tali ditarik komputer ke kanan.</li>
+        <li>🏆 Jawab <b>SEMUA 10 soal dengan benar</b> untuk memenangkan pertandingan!</li>
+      </ul>
+      <button class="btn btn-big" id="startBtn">🎨 MULAI PERTANDINGAN!</button>
+    </div>
+
+    <!-- LAYAR KUIS -->
+    <div id="scrQuiz" class="hide">
+      <div class="hud">
+        <div class="qcount" id="qCount">SOAL 1/10</div>
+        <div class="pips" id="pips"></div>
+        <div class="timer">
+          <div class="tbar" id="tbar"><i id="tfill"></i></div><b id="tnum">20</b>
+        </div>
+      </div>
+      <h2 class="qtext" id="qText"></h2>
+      <div class="opts" id="opts"></div>
+      <div class="kbd-hint">⌨️ Tekan tombol <b>A–D</b> atau <b>1–4</b> untuk menjawab • <b>Enter</b> untuk lanjut</div>
+      <div class="feedback hide" id="feedback">
+        <div class="fb-line" id="fbLine"></div>
+        <div class="fb-ex" id="fbEx"></div>
+        <button class="btn" id="nextBtn">Soal Berikutnya ➜</button>
+      </div>
+    </div>
+
+    <!-- LAYAR AKHIR -->
+    <div id="scrEnd" class="hide">
+      <div class="end">
+        <div class="end-emoji" id="endEmoji">🏆</div>
+        <h2 id="endTitle">TIM SISWA MENANG!</h2>
+        <p id="endMsg"></p>
+        <div class="score-line" id="scoreLine"></div>
+        <button class="btn btn-big" id="againBtn">🔁 MAIN LAGI</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Dibuat untuk pembelajaran <b>Dasar-Dasar Desain Komunikasi Visual</b> — SMK Kelas X 🎓</footer>
+</main>
+
+<script>
+/* ================= BANK SOAL DASAR DKV ================= */
+const POOL = [
+ {q:"Jurusan DKV merupakan singkatan dari…",
+  o:["Desain Komunikasi Visual","Desain Kreatif Visual","Digital Komunikasi Visual","Desain Komersial Visual"],a:0,
+  ex:"DKV adalah bidang yang mempelajari cara menyampaikan pesan/informasi melalui media visual seperti gambar, huruf, warna, dan tata letak."},
+ {q:"Unsur desain paling kecil yang menjadi awal terbentuknya sebuah karya adalah…",
+  o:["Titik","Garis","Bidang","Bentuk"],a:0,
+  ex:"Titik adalah unsur desain terkecil. Kumpulan titik dapat membentuk garis, lalu bidang dan bentuk."},
+ {q:"Unsur desain yang terbentuk dari goresan atau hubungan dua titik disebut…",
+  o:["Garis","Warna","Tekstur","Ruang"],a:0,
+  ex:"Garis adalah goresan yang menghubungkan dua titik. Garis dapat bersifat lurus, lengkung, patah-patah, dan membentuk bidang."},
+ {q:"Tiga warna primer (warna dasar) dalam teori warna adalah…",
+  o:["Merah, kuning, biru","Merah, hijau, biru","Hijau, ungu, oranye","Putih, hitam, abu-abu"],a:0,
+  ex:"Warna primer adalah merah, kuning, dan biru. Pencampuran ketiganya menghasilkan warna sekunder: hijau, oranye, dan ungu."},
+ {q:"Hasil pencampuran warna merah dan kuning adalah warna…",
+  o:["Oranye","Hijau","Ungu","Cokelat"],a:0,
+  ex:"Merah + kuning menghasilkan oranye (jingga), termasuk warna sekunder."},
+ {q:"Model warna yang digunakan pada proses percetakan adalah…",
+  o:["CMYK","RGB","HSL","Grayscale"],a:0,
+  ex:"CMYK (Cyan, Magenta, Yellow, Key/Black) dipakai untuk pencetakan, sedangkan RGB dipakai untuk layar digital."},
+ {q:"Model warna yang digunakan pada layar monitor komputer dan smartphone adalah…",
+  o:["RGB","CMYK","Pantone","Grayscale"],a:0,
+  ex:"RGB (Red, Green, Blue) adalah model warna aditif yang digunakan perangkat layar digital."},
+ {q:"Seni menata dan mengatur huruf untuk menyampaikan pesan disebut…",
+  o:["Tipografi","Fotografi","Ilustrasi","Kaligrafi"],a:0,
+  ex:"Tipografi adalah seni memilih dan menata huruf agar pesan mudah dibaca dan terlihat menarik."},
+ {q:"Jenis huruf serif adalah jenis huruf yang…",
+  o:["Memiliki garis kecil (kaki) di ujung hurufnya","Tidak memiliki garis dekorasi sama sekali","Terbuat dari gambar dan simbol","Hanya bisa dibaca di layar digital"],a:0,
+  ex:"Huruf serif memiliki 'kaki' di ujung hurufnya, contohnya Times New Roman. Huruf tanpa kaki disebut sans-serif, contohnya Arial."},
+ {q:"Prinsip desain yang membuat susunan unsur terlihat seimbang dan tidak berat sebelah adalah…",
+  o:["Keseimbangan (balance)","Penekanan (emphasis)","Irama (rhythm)","Kesatuan (unity)"],a:0,
+  ex:"Keseimbangan membuat karya terasa stabil. Bisa simetris (sama kedua sisi) maupun asimetris."},
+ {q:"Prinsip desain yang membuat salah satu unsur tampil lebih menonjol dari unsur lainnya adalah…",
+  o:["Penekanan (emphasis)","Keseimbangan (balance)","Proporsi (proportion)","Irama (rhythm)"],a:0,
+  ex:"Penekanan menciptakan center of interest (pusat perhatian), misalnya dengan ukuran besar atau warna mencolok."},
+ {q:"Penyusunan unsur secara berulang sehingga menimbulkan kesan gerak merupakan prinsip…",
+  o:["Irama (rhythm)","Kesatuan (unity)","Harmoni","Gradasi"],a:0,
+  ex:"Irama muncul dari pengulangan atau variasi unsur (bentuk, warna, garis) sehingga mata seperti 'digerakkan' mengikuti alurnya."},
+ {q:"Perangkat lunak (software) yang umum digunakan untuk membuat desain berbasis vektor adalah…",
+  o:["CorelDRAW","Adobe Premiere Pro","Microsoft Excel","Audacity"],a:0,
+  ex:"CorelDRAW, Adobe Illustrator, dan Inkscape adalah software desain vektor. Adobe Premiere Pro dipakai untuk mengedit video."}
+];
+
+/* ================= ELEMEN ================= */
+const $ = id => document.getElementById(id);
+const field=$('field'), rig=$('rig'), comm=$('comm'),
+  scrStart=$('scrStart'), scrQuiz=$('scrQuiz'), scrEnd=$('scrEnd'),
+  qCount=$('qCount'), pipsEl=$('pips'), qText=$('qText'), optsEl=$('opts'),
+  feedback=$('feedback'), fbLine=$('fbLine'), fbEx=$('fbEx'), nextBtn=$('nextBtn'),
+  tbar=$('tbar'), tfill=$('tfill'), tnum=$('tnum');
+
+const TOTAL=10, TURN_TIME=20, STEP=0.028, KEYS=['A','B','C','D'];
+
+/* ================= STATE ================= */
+let questions=[], qi=0, pos=0, results=[], answered=false, timerId=null, timeLeft=TURN_TIME;
+
+/* ================= DEKOR: kartu warna & bentuk melayang ================= */
+(function(){
+  const sw=$('swatches'), cm=[['C','#00b7eb'],['M','#e6007e'],['Y','#ffd400'],['K','#1a1a1a']];
+  for(let i=0;i<16;i++){
+    const [l,col]=cm[i%4], d=document.createElement('div');
+    d.className='sw'; d.style.marginTop=(Math.sin(i*0.6)*8+11)+'px';
+    d.style.animationDelay=(i*0.17)+'s';
+    d.innerHTML=`<i style="background:${col}"></i><b>${l}</b>`;
+    sw.appendChild(d);
+  }
+  const bg=$('bg'), chars=['●','▲','■','◆','✚'], cols=['#00b7eb','#e6007e','#ffd400','#1a1a1a'];
+  for(let i=0;i<14;i++){
+    const s=document.createElement('span');
+    s.className='fshape'; s.textContent=chars[i%5];
+    s.style.left=(Math.random()*96)+'vw';
+    s.style.fontSize=(14+Math.random()*18)+'px';
+    s.style.color=cols[i%4];
+    s.style.opacity=(.14+Math.random()*.2);
+    s.style.animationDuration=(14+Math.random()*14)+'s';
+    s.style.animationDelay=(-Math.random()*20)+'s';
+    bg.appendChild(s);
+  }
+})();
+
+/* ================= SUARA ================= */
+let actx=null, muted=false;
+function ac(){ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); return actx; }
+function tone(f,d,type='square',g=.14,t=0){
+  if(muted) return;
+  try{ const c=ac(),o=c.createOscillator(),v=c.createGain();
+    o.type=type; o.frequency.value=f;
+    v.gain.setValueAtTime(g,c.currentTime+t);
+    v.gain.exponentialRampToValueAtTime(.001,c.currentTime+t+d);
+    o.connect(v).connect(c.destination);
+    o.start(c.currentTime+t); o.stop(c.currentTime+t+d);
+  }catch(e){}
+}
+const sfx={
+  click:()=>tone(620,.08,'square',.07),
+  tick:()=>tone(950,.05,'square',.05),
+  correct:()=>{tone(523,.12);tone(659,.12,'square',.14,.1);tone(784,.22,'square',.14,.2)},
+  wrong:()=>{tone(220,.25,'sawtooth',.11);tone(150,.35,'sawtooth',.11,.16)},
+  win:()=>{[523,659,784,1047].forEach((f,i)=>tone(f,.22,'square',.15,i*.16));tone(1319,.5,'square',.13,.68)},
+  lose:()=>{[392,330,262].forEach((f,i)=>tone(f,.3,'sawtooth',.1,i*.22))}
+};
+$('sndBtn').addEventListener('click',()=>{muted=!muted;$('sndBtn').textContent=muted?'🔇':'🔊';if(!muted)sfx.click();});
+
+/* ================= UTIL ================= */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function prep(q){const idx=q.o.map((_,i)=>i);shuffle(idx);
+  return {q:q.q,opts:idx.map(i=>q.o[i]),a:idx.indexOf(q.a),ex:q.ex};}
+function say(t){comm.textContent=t;comm.classList.remove('pop');void comm.offsetWidth;comm.classList.add('pop');}
+function updateRig(instant){
+  const step=field.clientWidth*STEP;
+  if(instant){rig.classList.add('snap');rig.style.transform=`translateX(calc(-50% + ${pos*step}px))`;void rig.offsetWidth;rig.classList.remove('snap');}
+  else rig.style.transform=`translateX(calc(-50% + ${pos*step}px))`;
+}
+window.addEventListener('resize',()=>updateRig(true));
+function burst(text,good){
+  const b=document.createElement('div');
+  b.className='burst '+(good?'good':'bad'); b.textContent=text;
+  field.appendChild(b); setTimeout(()=>b.remove(),1000);
+}
+function puff(side){
+  for(let i=0;i<3;i++){
+    const p=document.createElement('span');
+    p.className='puff'; p.textContent='💨';
+    p.style[side<0?'left':'right']=(6+i*5)+'%';
+    p.style.animationDelay=(i*0.08)+'s';
+    field.appendChild(p); setTimeout(()=>p.remove(),1000);
+  }
+}
+function confetti(n){
+  const colors=['#00b7eb','#e6007e','#ffd400','#1a1a1a','#ffffff'];
+  for(let i=0;i<n;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.width=(7+Math.random()*7)+'px';
+    c.style.height=(10+Math.random()*8)+'px';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration=(2.4+Math.random()*2)+'s';
+    c.style.animationDelay=(Math.random()*0.8)+'s';
+    c.style.transform=`rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5200);
+  }
+}
+
+/* ================= ALUR GAME ================= */
+function buildPips(){
+  pipsEl.innerHTML='';
+  for(let i=0;i<TOTAL;i++){const p=document.createElement('div');p.className='pip';pipsEl.appendChild(p);}
+}
+function drawPips(){
+  [...pipsEl.children].forEach((p,i)=>{
+    p.className='pip'; p.textContent='';
+    if(i<results.length){p.classList.add(results[i]?'ok':'no');p.textContent=results[i]?'✓':'✗';}
+    else if(i===qi){p.classList.add('now');p.textContent=i+1;}
+  });
+}
+function startGame(){
+  questions=shuffle(POOL).slice(0,TOTAL).map(prep);
+  qi=0; pos=0; results=[]; answered=false;
+  clearInterval(timerId);
+  scrStart.classList.add('hide'); scrEnd.classList.add('hide'); scrQuiz.classList.remove('hide');
+  buildPips(); updateRig(true);
+  say('📣 Wasit: "Pertandingan dimulai! Jawab benar untuk menarik tali!"');
+  renderQuestion();
+}
+function renderQuestion(){
+  answered=false; feedback.classList.add('hide');
+  const q=questions[qi];
+  qCount.textContent=`SOAL ${qi+1}/${TOTAL}`;
+  qText.textContent=q.q;
+  optsEl.innerHTML='';
+  q.opts.forEach((t,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.i=i;
+    b.innerHTML=`<span class="key">${KEYS[i]}</span><span>${t}</span>`;
+    b.addEventListener('click',()=>answer(i));
+    optsEl.appendChild(b);
+  });
+  drawPips(); startTimer();
+}
+function startTimer(){
+  clearInterval(timerId); timeLeft=TURN_TIME; drawTimer();
+  timerId=setInterval(()=>{
+    timeLeft--; drawTimer();
+    if(timeLeft>0&&timeLeft<=5)sfx.tick();
+    if(timeLeft<=0){clearInterval(timerId);answer(-1);}
+  },1000);
+}
+function drawTimer(){
+  tfill.style.width=(timeLeft/TURN_TIME*100)+'%';
+  tnum.textContent=timeLeft;
+  tbar.classList.toggle('warn',timeLeft<=10&&timeLeft>5);
+  tbar.classList.toggle('danger',timeLeft<=5);
+}
+const CHEER=['HIAAAT! Tali tertarik ke kiri! 🔥','Tarikan mantap! Siswa unggul! 💪','Kreativitas menang! Tarik terus! 🎨','Keren! Komputer keteteran! ⚡'];
+const OOPS=['Aduh! Komputer menarik balik ke kanan 😬','Sayang sekali, tali bergeser ke kanan 🤖','Fokus! Komputer mencuri momentum 😤'];
+
+function answer(i){
+  if(answered) return;
+  answered=true; clearInterval(timerId);
+  const q=questions[qi], ok=(i>=0 && i===q.a), timeout=(i<0);
+  results.push(ok);
+  const btns=[...optsEl.children];
+  btns.forEach((b,bi)=>{
+    b.disabled=true;
+    if(bi===q.a)b.classList.add('correct');
+    else if(bi===i)b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  pos=Math.max(-TOTAL,Math.min(TOTAL,pos+(ok?-1:1)));
+  updateRig(false);
+  rig.classList.remove('heave-l','heave-r'); void rig.offsetWidth;
+  rig.classList.add(ok?'heave-l':'heave-r'); puff(ok?-1:1);
+  setTimeout(()=>rig.classList.remove('heave-l','heave-r'),950);
+  if(ok){
+    sfx.correct(); burst(['HIAAAT!','TARIK!','MANTAP!'][Math.floor(Math.random()*3)],true);
+    say('💪 '+CHEER[Math.floor(Math.random()*CHEER.length)]);
+  }else{
+    sfx.wrong(); field.classList.add('shake'); setTimeout(()=>field.classList.remove('shake'),520);
+    burst(timeout?'⏰ YAH…':'OOOPS!',false);
+    say(timeout?'⏰ Waktu habis! Komputer menarik tali!':'🤖 '+OOPS[Math.floor(Math.random()*OOPS.length)]);
+  }
+  drawPips();
+  fbLine.textContent = ok ? '✅ BENAR! Tali tertarik ke kiri!'
+    : timeout ? '⏰ WAKTU HABIS! Tali tertarik ke kanan…' : '❌ SALAH! Komputer menarik tali ke kanan…';
+  fbLine.className='fb-line '+(ok?'good':'bad');
+  fbEx.textContent='💡 '+q.ex;
+  nextBtn.textContent=(qi===TOTAL-1)?'Lihat Hasil 🏁':'Soal Berikutnya ➜';
+  feedback.classList.remove('hide');
+}
+function endGame(){
+  clearInterval(timerId);
+  const win=results.every(Boolean), benar=results.filter(Boolean).length;
+  scrQuiz.classList.add('hide'); scrEnd.classList.remove('hide');
+  $('endEmoji').textContent=win?'🏆':'🤖';
+  const t=$('endTitle');
+  t.textContent=win?'TIM SISWA MENANG!':'TIM KOMPUTER MENANG!';
+  t.className=win?'win':'lose';
+  $('endMsg').textContent = win
+    ? 'SEMPURNA! Semua 10 soal dijawab benar — tali berhasil kamu tarik penuh ke sisi siswa. Kamu menguasai dasar-dasar DKV! 🎉'
+    : benar===9 ? `Nyaris sempurna! Benar ${benar} dari 10 soal — tinggal sejengkal lagi komputer kalah. Coba sekali lagi!`
+    : benar>=7 ? `Perlawanan sengit! Benar ${benar} dari 10 soal. Pelajari lagi materi DKV-nya, lalu tantang komputer ulang!`
+    : benar>=5 ? `Lumayan, benar ${benar} dari 10 soal. Komputer masih terlalu kuat — baca ulang materinya, ya!`
+    : `Komputer mendominasi kali ini — benar ${benar} dari 10 soal. Pelajari lagi unsur, prinsip desain, dan teori warna, lalu balas dendam!`;
+  const sl=$('scoreLine'); sl.innerHTML='';
+  results.forEach(r=>{const c=document.createElement('div');c.className='chip '+(r?'ok':'no');c.textContent=r?'✓':'✗';sl.appendChild(c);});
+  if(win){sfx.win();confetti(120);say('🏁 TIM SISWA MENANG! Semua soal dijawab benar!');}
+  else{sfx.lose();say('🏁 Pertandingan selesai! Komputer memenangkan tarik tambang.');}
+}
+
+nextBtn.addEventListener('click',()=>{sfx.click();if(qi<TOTAL-1){qi++;renderQuestion();}else endGame();});
+$('startBtn').addEventListener('click',()=>{try{ac().resume();}catch(e){}sfx.click();startGame();});
+$('againBtn').addEventListener('click',()=>{sfx.click();startGame();});
+
+/* keyboard */
+document.addEventListener('keydown',e=>{
+  if(scrQuiz.classList.contains('hide')) return;
+  if(!answered){
+    const k=e.key.toLowerCase();
+    let idx=-1;
+    if(['a','b','c','d'].includes(k))idx='abcd'.indexOf(k);
+    if(['1','2','3','4'].includes(k))idx=Number(k)-1;
+    if(idx>=0){const b=optsEl.children[idx];if(b)b.click();}
+  }else if(e.key==='Enter'||e.key===' '){e.preventDefault();nextBtn.click();}
+});
+</script>
+</body>
+</html>
